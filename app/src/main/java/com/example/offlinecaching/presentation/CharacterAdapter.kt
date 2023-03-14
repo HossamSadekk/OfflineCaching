@@ -14,6 +14,7 @@ import com.example.offlinecaching.domain.model.Result
 class CharacterAdapter :
     ListAdapter<Result, CharacterAdapter.CharacterViewHolder>(DiffUtilCallback()) {
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
         val binding =
             CharacterItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
