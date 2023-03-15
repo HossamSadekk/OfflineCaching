@@ -1,6 +1,5 @@
 package com.example.offlinecaching.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.offlinecaching.common.Resource
@@ -28,7 +27,7 @@ init {
         getCharactersUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _viewState.value = CharacterState(gotCharacters = result.data?.results ?: emptyList())
+                    _viewState.value = CharacterState(gotCharacters = result.data ?: emptyList())
                 }
                 is Resource.Error -> {
                     _viewState.value =
@@ -37,6 +36,7 @@ init {
                 is Resource.Loading -> {
                     _viewState.value = CharacterState(isLoading = true)
                 }
+                else -> {}
             }
         }.launchIn(this)
     }
