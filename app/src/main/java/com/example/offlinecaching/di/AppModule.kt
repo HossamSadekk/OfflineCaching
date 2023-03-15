@@ -1,6 +1,10 @@
 package com.example.offlinecaching.di
 
+import android.app.Application
+import androidx.room.Room
 import com.example.offlinecaching.common.Constants
+import com.example.offlinecaching.data.local.CharactersDao
+import com.example.offlinecaching.data.local.CharactersDatabase
 import com.example.offlinecaching.data.remote.CharacterApi
 import com.example.offlinecaching.data.repository.CharacterRepositoryImpl
 import com.example.offlinecaching.domain.repository.CharacterRepository
@@ -31,9 +35,15 @@ object AppModule {
             .build()
             .create(CharacterApi::class.java)
 
+    @Provides
+    @Singleton
+    fun provideDatabase(app: Application): CharactersDatabase =
+        Room.databaseBuilder(app, CharactersDatabase::class.java, "characters_db")
+            .build()
+
 
     @Provides
     @Singleton
-    fun provideCoinRepository(api: CharacterApi):CharacterRepository =
-        CharacterRepositoryImpl(api)
+    fun provideCoinRepository(api: CharacterApi,database: CharactersDatabase): CharacterRepository =
+        CharacterRepositoryImpl(api,database)
 }
